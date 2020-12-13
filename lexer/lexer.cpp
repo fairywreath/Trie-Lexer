@@ -165,7 +165,7 @@ Token Lexer::scanToken()
 		{
 			std::cout << *ptr;
 		}
-		std::cout << "], Token type [" << (int)currentNode->nodeToken << "]\n";
+		std::cout << "], Token type [" << (int)currentNode->nodeToken << "] at line " << line << std::endl;
 #endif
 
 			return Token(currentNode->nodeToken, start, (int)(current - start), line);
@@ -183,7 +183,7 @@ Token Lexer::scanToken()
 				{
 					std::cout << *ptr;
 				}
-				std::cout << "], Token type [" << (int)TokenType::TOKEN_IDENTIFIER << "]\n";
+				std::cout << "], Token type [" << (int)TokenType::TOKEN_IDENTIFIER << "] at line " << line << std::endl;
 
 #endif
 				return Token(TokenType::TOKEN_IDENTIFIER, start, (int)(current - start), line);

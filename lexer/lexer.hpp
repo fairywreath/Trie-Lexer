@@ -34,7 +34,7 @@ private:
 
 
 private:
-	std::string::const_pointer start;
+	std::string::const_pointer start;				// pointer to current char in string
 	std::string::const_pointer current;
 	int line;
 

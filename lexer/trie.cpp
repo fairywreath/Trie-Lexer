@@ -14,7 +14,8 @@ TrieNode::TrieNode()
 // for trie class
 Trie::Trie()
 {
-	root = std::shared_ptr<TrieNode>(new TrieNode());		// create new TrieNode() object and assign it to root
+	//root = std::shared_ptr<TrieNode>(new TrieNode());		// create new TrieNode() object and assign it to root
+	root = std::make_shared<TrieNode>();
 	numberOfKeys = 0;
 }
 
@@ -42,6 +43,7 @@ void Trie::insertKeyword(std::string& word, TokenType type)
 
 	current->isKeyword = true;			// mark that word as true
 	current->nodeToken = type;
+	numberOfKeys++;
 }
 
 bool Trie::isCharNode(const char* c, std::shared_ptr<TrieNode> origin)

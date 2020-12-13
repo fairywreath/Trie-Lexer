@@ -13,7 +13,7 @@ static void repl()
 		std::cout << "~> ";
 		std::getline(std::cin, line);
 
-		//line = "for else if";
+		//line = "for else \nif";
 		//std::cout << line << std::endl;
 
 		Lexer lexer(line);
