@@ -4,6 +4,7 @@
 #include "trie.hpp"
 
 #include <string>
+#include <vector>
 
 class Lexer
 {
@@ -32,11 +33,13 @@ public:
 	void skipWhiteSpaces();
 
 	Token scanToken();
+	std::vector<Token> scanAll();
 
 private:
 	std::unique_ptr<Trie> trie;
 	std::shared_ptr<TrieNode> currentNode;
 
+	std::vector<Token> tokens;
 
 
 };

@@ -142,6 +142,7 @@ Token Lexer::scanToken()
 			if (peekNext() == ' ' || peekNext() == '\0')
 			{
 				advanceString();
+
 				const char* ptr = start;
 				for (ptr; ptr < current; ptr++)
 				{
