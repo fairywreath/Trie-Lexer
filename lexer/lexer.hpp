@@ -11,11 +11,13 @@ public:
 	Lexer(const std::string& source);
 	~Lexer();
 
+	void advanceString();
+
 	void advance();
 
 public:
-	std::string::const_iterator start;
-	std::string::const_iterator current;
+	std::string::const_pointer start;
+	std::string::const_pointer current;
 	int line;
 
 
@@ -28,7 +30,7 @@ public:
 
 	bool isAtEnd();							// check if at the end of the string
 	void skipWhiteSpaces();
-	
+
 	Token scanToken();
 
 private:

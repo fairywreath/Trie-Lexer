@@ -44,6 +44,15 @@ void Trie::insertKeyword(std::string& word, TokenType type)
 	current->nodeToken = type;
 }
 
+bool Trie::isCharNode(const char* c, std::shared_ptr<TrieNode> origin)
+{
+	if (origin->children[charToInt(*c)] == std::shared_ptr<TrieNode>(nullptr))		// children for that char does not exist
+		return false;
+	return true;
+}
+
+
+
 bool Trie::searchKeyword(std::string& word)
 {
 	std::shared_ptr<TrieNode> current = root;
@@ -59,19 +68,20 @@ bool Trie::searchKeyword(std::string& word)
 		return false;
 }
 
-TokenType Trie::searchToken(std::string& word)
+TokenType Trie::searchToken(const char* cstring)
 {
+	std::string word = cstring;
 	std::shared_ptr<TrieNode> current = root;
 	for (int i = 0; i < word.size(); i++)
 	{
 		if (current->children[charToInt(word[i])] == std::shared_ptr<TrieNode>(nullptr))		// not found
-			return TokenType::TOKEN_ERROR;
+			return TokenType::TOKEN_IDENTIFIER;
 		current = current->children[charToInt(word[i])];
 	}
 	if (current->isKeyword)
 		return current->nodeToken;
 	else
-		return TokenType::TOKEN_ERROR;
+		return TokenType::TOKEN_IDENTIFIER;
 }
 
 

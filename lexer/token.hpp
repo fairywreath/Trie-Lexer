@@ -22,16 +22,18 @@ enum class TokenType
 
 	TOKEN_WHILE,
 	TOKEN_FOR,
+	
+	TOKEN_EOF,
 };
 
 
 class Token
 {
 public:
-	Token(TokenType mType, std::string::const_pointer mStart, int mLength, int mLine);
+	Token(TokenType mType, const char* mStart, int mLength, int mLine);
 public:
 	TokenType type;
-	std::string::const_pointer start;
+	const char* start;
 	int length;
 	int line;
 };

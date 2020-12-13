@@ -20,17 +20,27 @@ int main(int argc, const char* argv[])
 	//if (argc == 1)
 	//	repl();
 
-	std::string source = "Hitagi Senjogahara";
+	std::string source = "    assign      for  azaz";
 	Lexer lexer(source);
 
-	std::cout << lexer.peek() << std::endl;
-	lexer.advance();
-	std::cout << lexer.peek() << std::endl;
 
-	if (lexer.checkKeyword("els"))
-		std::cout << "Is present in trie\n";
-	else
-		std::cout << "Not present in trie\n";
+	lexer.skipWhiteSpaces();
+	Token result = lexer.scanToken();
+	std::cout << "Token Type: " << (int)result.type << std::endl;
+
+	std::cout << "Token String Length: " << result.length << std::endl;
+
+	
+	lexer.skipWhiteSpaces();
+	result = lexer.scanToken();
+	std::cout << "Token Type: " << (int)result.type << std::endl;
+	std::cout << "Token String Length: " << result.length << std::endl;
+
+	lexer.skipWhiteSpaces();
+	result = lexer.scanToken();
+	std::cout << "Token Type: " << (int)result.type << std::endl;
+	std::cout << "Token String Length: " << result.length << std::endl;
+	
 
 	return 0;
 }

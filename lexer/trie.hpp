@@ -24,26 +24,10 @@ public:
 	TrieNode();
 };
 
-// interface class with virtual functions
-class interface
-{
-public:
-	interface() {};
-	virtual ~interface() {};			// virtual destructor
-
-	// convert char to int like hashing, for index of the children, for eg. a = 0, c = 2, and so on
-	virtual int charToInt(char) = 0;	
-	//virtual void insertKeyword(std::string&) = 0;
-	virtual bool deleteKeyword(std::string&) = 0;
-	virtual bool searchKeyword(std::string&) = 0;
-
-	virtual bool isNodeEmpty(std::shared_ptr<TrieNode>) const = 0;
-
-};
 
 
 // trie class
-class Trie : public interface
+class Trie
 {
 private:
 	std::shared_ptr<TrieNode> root;
@@ -56,8 +40,14 @@ public:
 	int charToInt(char c);
 	void insertKeyword(std::string& word, TokenType type);
 	
+	bool isCharNode(const char* c, std::shared_ptr<TrieNode> origin);
+	
+	
 	bool searchKeyword(std::string& word);
-	TokenType searchToken(std::string& word);
+
+
+
+	TokenType searchToken(const char* word);
 
 	// delete a segment of the tree, basically 'search and delete', returns true if successful
 	bool deletePart(std::string& word, std::shared_ptr<TrieNode>& checkout);		// pass in memory address of shared_ptr
