@@ -10,6 +10,8 @@ Lexer::Lexer(const std::string& source) :
 	start = source.c_str();
 	current = source.c_str();
 	
+	std::cout << "Source: " << start << std::endl;
+
 	addKeyword("+", TokenType::TOKEN_ADD);
 	addKeyword("-", TokenType::TOKEN_MINUS);
 	addKeyword("*", TokenType::TOKEN_STAR);
@@ -23,11 +25,6 @@ Lexer::Lexer(const std::string& source) :
 	
 	addKeyword("while", TokenType::TOKEN_WHILE);
 	addKeyword("for", TokenType::TOKEN_FOR);
-
-	//TokenType token = trie->searchToken("if");
-	//std::cout << (int)token << std::endl;
-
-	// advance();
 }
 
 Lexer::~Lexer() {};
@@ -119,6 +116,9 @@ Token Lexer::scanToken()
 {
 	skipWhiteSpaces();
 
+	if (isAtEnd())
+		return Token(TokenType::TOKEN_EOF, start, (int)(current - start), line);;
+
 	start = current;		// reset start pointer to current pointer
 	currentNode = trie->getRootNode();
 
@@ -151,7 +151,6 @@ Token Lexer::scanToken()
 		}
 		else
 		{
-			advanceString();
 			if (peekNext() == ' ' || peekNext() == '\0')
 			{
 				advanceString();
@@ -169,6 +168,8 @@ Token Lexer::scanToken()
 #endif
 				return Token(TokenType::TOKEN_IDENTIFIER, start, (int)(current - start), line);
 			}
+
+			advanceString();
 		}
 	}
 	
@@ -178,9 +179,16 @@ Token Lexer::scanToken()
 
 std::vector<Token> Lexer::scanAll()
 {
-	while (peek() != '\0')
+	for (;;)
 	{
-		tokens.push_back(scanToken());
+		Token tkn = scanToken();
+		tokens.push_back(tkn);
+		//std::cout << "Token type at scan all = " << (int)tkn.type << std::endl;
+		if (tkn.type == TokenType::TOKEN_EOF)
+		{
+			std::cout << "EOF found \n";
+			break;
+		}
 	}
 
 	return tokens;

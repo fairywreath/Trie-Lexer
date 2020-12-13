@@ -11,10 +11,15 @@ static void repl()
 	for (;;)
 	{
 		std::cout << "~> ";
-		std::cin >> line;
+		std::getline(std::cin, line);
+
+		//line = "for else if";
+		//std::cout << line << std::endl;
 
 		Lexer lexer(line);
-		lexer.scanToken();
+		lexer.scanAll();
+
+		//break;
 	}
 }
 
