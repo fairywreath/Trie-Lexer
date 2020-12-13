@@ -16,13 +16,12 @@ public:
 
 	void advance();
 
-public:
-	std::string::const_pointer start;
-	std::string::const_pointer current;
-	int line;
-
 
 public:
+	Token scanToken();
+	std::vector<Token> scanAll();
+
+private:
 	void addKeyword(const char* word, TokenType type);			// add word to trie
 	bool checkKeyword(const char* string);		// check for word in trie
 
@@ -34,16 +33,14 @@ public:
 	void skipWhiteSpaces();
 
 
-	Token scanToken();
-	std::vector<Token> scanAll();
-
-
 private:
+	std::string::const_pointer start;
+	std::string::const_pointer current;
+	int line;
+
 	std::unique_ptr<Trie> trie;
 	std::shared_ptr<TrieNode> currentNode;
-
 	std::vector<Token> tokens;
-
 
 };
 

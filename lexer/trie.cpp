@@ -75,23 +75,6 @@ bool Trie::searchKeyword(std::string& word)
 		return false;
 }
 
-TokenType Trie::searchToken(const char* cstring)
-{
-	std::string word = cstring;
-	std::shared_ptr<TrieNode> current = root;
-	for (int i = 0; i < word.size(); i++)
-	{
-		if (current->children[charToInt(word[i])] == std::shared_ptr<TrieNode>(nullptr))		// not found
-			return TokenType::TOKEN_IDENTIFIER;
-		current = current->children[charToInt(word[i])];
-	}
-	if (current->isKeyword)
-		return current->nodeToken;
-	else
-		return TokenType::TOKEN_IDENTIFIER;
-}
-
-
 
 bool Trie::deletePart(std::string& word, std::shared_ptr<TrieNode>& checkout)
 {

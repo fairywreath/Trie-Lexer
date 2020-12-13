@@ -46,9 +46,6 @@ public:
 	bool searchKeyword(std::string& word);
 
 
-
-	TokenType searchToken(const char* word);
-
 	// delete a segment of the tree, basically 'search and delete', returns true if successful
 	bool deletePart(std::string& word, std::shared_ptr<TrieNode>& checkout);		// pass in memory address of shared_ptr
 	bool deleteKeyword(std::string& word);

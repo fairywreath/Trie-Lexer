@@ -17,14 +17,35 @@ Lexer::Lexer(const std::string& source) :
 	addKeyword("*", TokenType::TOKEN_STAR);
 	addKeyword("/", TokenType::TOKEN_SLASH);
 
+	addKeyword("=", TokenType::TOKEN_EQUAL);
+	addKeyword("==", TokenType::TOKEN_EQUAL_EQUAL);
+	addKeyword(">", TokenType::TOKEN_GREATER);
+	addKeyword(">=", TokenType::TOKEN_GREATER_EQUAL);
+	addKeyword("<", TokenType::TOKEN_LESS);
+	addKeyword("<=", TokenType::TOKEN_LESS_EQUAL);
+
+
+	addKeyword("assigned", TokenType::TOKEN_EQUAL);
+	addKeyword("equals", TokenType::TOKEN_EQUAL_EQUAL);
+	addKeyword("is", TokenType::TOKEN_EQUAL_EQUAL);
+	addKeyword("not", TokenType::TOKEN_BANG_EQUAL);
+
+	addKeyword("class", TokenType::TOKEN_CLASS);
+	addKeyword("super", TokenType::TOKEN_SUPER);
+	addKeyword("this", TokenType::TOKEN_THIS);
+
+	addKeyword("print", TokenType::TOKEN_PRINT);
+	addKeyword("return", TokenType::TOKEN_RETURN);
+
 	addKeyword("if", TokenType::TOKEN_IF);
 	addKeyword("elf", TokenType::TOKEN_ELF);
 	addKeyword("else", TokenType::TOKEN_ELSE);
 
-	addKeyword("assign", TokenType::TOKEN_ASSIGN);
-	
 	addKeyword("while", TokenType::TOKEN_WHILE);
 	addKeyword("for", TokenType::TOKEN_FOR);
+	addKeyword("switch", TokenType::TOKEN_SWITCH);
+
+	addKeyword("end", TokenType::TOKEN_END);
 }
 
 Lexer::~Lexer() {};
@@ -154,7 +175,6 @@ Token Lexer::scanToken()
 			if (peekNext() == ' ' || peekNext() == '\0')
 			{
 				advanceString();
-				currentNode = trie->getRootNode();
 
 #ifdef DEBUG_TRACE_TOKEN
 				const char* ptr = start;
