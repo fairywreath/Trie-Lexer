@@ -50,6 +50,13 @@ bool Trie::isCharNode(const char* c, std::shared_ptr<TrieNode> origin)
 		return false;
 	return true;
 }
+bool Trie::isCharWord(const char* c, std::shared_ptr<TrieNode> origin)
+{
+	if (origin->children[charToInt(*c)] == std::shared_ptr<TrieNode>(nullptr)
+		|| !origin->children[charToInt(*c)]->isKeyword)		// children for that char does not exist
+		return false;
+	return true;
+}
 
 
 

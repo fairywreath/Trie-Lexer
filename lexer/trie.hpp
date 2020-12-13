@@ -41,7 +41,7 @@ public:
 	void insertKeyword(std::string& word, TokenType type);
 	
 	bool isCharNode(const char* c, std::shared_ptr<TrieNode> origin);
-	
+	bool isCharWord(const char* c, std::shared_ptr<TrieNode> origin);
 	
 	bool searchKeyword(std::string& word);
 

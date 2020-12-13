@@ -1,5 +1,6 @@
 #include "lexer.hpp"
-#include <iostream>
+#include "common.hpp"
+
 
 Lexer::Lexer(const std::string& source) : 
 	trie(new Trie()),
@@ -54,6 +55,12 @@ bool Lexer::checkKeyword(const char* cstring)
 	return trie->searchKeyword(word);
 }
 
+
+char Lexer::peekBehind()
+{
+	const char* temp = current;
+	return *--temp;
+}
 
 char Lexer::peek()
 {
@@ -111,8 +118,9 @@ void Lexer::skipWhiteSpaces()
 Token Lexer::scanToken()
 {
 	skipWhiteSpaces();
+
 	start = current;		// reset start pointer to current pointer
-	currentNode = trie->getRootNode();		// resest root node
+	currentNode = trie->getRootNode();
 
 	if (isAtEnd())
 		return Token(TokenType::TOKEN_EOF, start, (int)(current - start), line);
@@ -123,16 +131,21 @@ Token Lexer::scanToken()
 		{
 			advance();			// go to next character
 		}
-		else if (trie->isCharNode(&*current, currentNode))		// if space is found at the end
+		else if (trie->isCharWord(&*current, currentNode))		// if space is found at the end
 		{
 			advance();
-			std::cout << "Current Node = " << (int)(currentNode->nodeToken) << std::endl;
 
-			const char* ptr = start;
-			for (ptr; ptr < current; ptr++)
-			{
-				std::cout << *ptr << std::endl;
-			}
+
+
+#ifdef DEBUG_TRACE_TOKEN
+		const char* ptr = start;
+		std::cout << "Token string [";
+		for (ptr; ptr < current; ptr++)
+		{
+			std::cout << *ptr;
+		}
+		std::cout << "], Token type [" << (int)currentNode->nodeToken << "]\n";
+#endif
 
 			return Token(currentNode->nodeToken, start, (int)(current - start), line);
 		}
@@ -142,13 +155,18 @@ Token Lexer::scanToken()
 			if (peekNext() == ' ' || peekNext() == '\0')
 			{
 				advanceString();
+				currentNode = trie->getRootNode();
 
+#ifdef DEBUG_TRACE_TOKEN
 				const char* ptr = start;
+				std::cout << "Token string [";
 				for (ptr; ptr < current; ptr++)
 				{
-					std::cout << *ptr << std::endl;
+					std::cout << *ptr;
 				}
+				std::cout << "], Token type [" << (int)TokenType::TOKEN_IDENTIFIER << "]\n";
 
+#endif
 				return Token(TokenType::TOKEN_IDENTIFIER, start, (int)(current - start), line);
 			}
 		}
@@ -156,4 +174,14 @@ Token Lexer::scanToken()
 	
 
 	return Token(TokenType::TOKEN_ERROR, start, (int)(current - start), line);
+}
+
+std::vector<Token> Lexer::scanAll()
+{
+	while (peek() != '\0')
+	{
+		tokens.push_back(scanToken());
+	}
+
+	return tokens;
 }
