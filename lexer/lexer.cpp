@@ -10,7 +10,9 @@ Lexer::Lexer(const std::string& source) :
 	start = source.c_str();
 	current = source.c_str();
 	
-	std::cout << "Source: " << start << std::endl;
+#ifdef DEBUG_TRACE_TOKEN
+	std::cout << "Source:\n" << start << std::endl;
+#endif
 
 	addKeyword("+", TokenType::TOKEN_ADD);
 	addKeyword("-", TokenType::TOKEN_MINUS);
@@ -46,6 +48,8 @@ Lexer::Lexer(const std::string& source) :
 	addKeyword("switch", TokenType::TOKEN_SWITCH);
 
 	addKeyword("end", TokenType::TOKEN_END);
+
+	addKeyword("[a-zA-Z_][0-9a-zA-Z_]*", TokenType::TOKEN_ELF);
 }
 
 Lexer::~Lexer() {};
@@ -116,15 +120,15 @@ void Lexer::skipWhiteSpaces()
 			break;
 
 			// for comments
-		case '/':
-			if (peekNext() == '/')
-			{
-				// comment goes until end of line
-				while (peek() != '\n' && !isAtEnd()) advanceString();		// if not new line or not end, treat as whitespace and advance
-			}
-			else {
-				return;
-			}
+		//case '/':
+		//	if (peekNext() == '/')
+		//	{
+		//		// comment goes until end of line
+		//		while (peek() != '\n' && !isAtEnd()) advanceString();		// if not new line or not end, treat as whitespace and advance
+		//	}
+		//	else {
+		//		return;
+		//	}
 
 		default:
 			return;
@@ -148,7 +152,8 @@ Token Lexer::scanToken()
 	
 	while (peek() != ' ')
 	{
-		if (trie->isCharNode(&*current, currentNode) && peekNext() != ' ' && peekNext() != '\0')
+		if (trie->isCharNode(&*current, currentNode) && peekNext() != ' ' && peekNext() != '\0' && peekNext() != '\n'
+			&& peekNext () != '\t')
 		{
 			advance();			// go to next character
 		}
@@ -172,7 +177,7 @@ Token Lexer::scanToken()
 		}
 		else
 		{
-			if (peekNext() == ' ' || peekNext() == '\0')
+			if (peekNext() == ' ' || peekNext() == '\0' || peekNext() == '\n'  || peekNext() == '\t')
 			{
 				advanceString();
 
